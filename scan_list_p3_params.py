@@ -20,7 +20,7 @@ offset="5"
 
 endpoint = "https://api.cloudsploit.com"
 path = "/v2/scans"
-args = "?limit=" + limit + "&offset=" + offset
+args = f"?limit={limit}&offset={offset}"
 method = "GET"
 timestamp = str(int(time.time() * 1000))
 

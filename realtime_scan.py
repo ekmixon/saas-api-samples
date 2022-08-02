@@ -22,11 +22,7 @@ def make_call(method, path, body):
 	timestamp = str(int(time.time() * 1000))
 	endpoint = base_url + path;
 
-	if body:
-		body_str = json.dumps(body, separators=(',', ':'))
-	else:
-		body_str = ""
-
+	body_str = json.dumps(body, separators=(',', ':')) if body else ""
 	string = timestamp + method + path + body_str
 	signature = hmac.new(secret, msg=string, digestmod=hashlib.sha256).hexdigest()
 

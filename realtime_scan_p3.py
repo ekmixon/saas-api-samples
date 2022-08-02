@@ -22,11 +22,7 @@ def make_call(method, path, body):
 	timestamp = str(int(time.time() * 1000))
 	endpoint = base_url + path;
 
-	if body:
-		body_str = json.dumps(body, separators=(',', ':'))
-	else:
-		body_str = ""
-
+	body_str = json.dumps(body, separators=(',', ':')) if body else ""
 	string = timestamp + method + path + body_str
 
 	secret_bytes= bytes(secret , 'latin-1')
@@ -59,7 +55,7 @@ body = {
 realtime_scan = make_call("POST", "/v2/realtimes", body)
 
 if realtime_scan is None:
-	print("Error initiating realtime scan: " + realtime_scan)
+	print(f"Error initiating realtime scan: {realtime_scan}")
 	sys.exit()
 
 realtime_json = json.loads(realtime_scan)
@@ -74,11 +70,11 @@ if realtime_id is None:
 	print("Error obtaining realtime ID")
 	sys.exit()
 
-print("Scan created with realtime ID: " + str(realtime_id))
+print(f"Scan created with realtime ID: {str(realtime_id)}")
 
 while True:
 	print("Polling for results...")
-	realtime_result = make_call("GET", "/v2/realtimes/" + str(realtime_id), None)
+	realtime_result = make_call("GET", f"/v2/realtimes/{str(realtime_id)}", None)
 	realtime_result_json = json.loads(realtime_result)
 	realtime_status = realtime_result_json["data"]["status"]
 
